@@ -7,8 +7,6 @@ import Footer from "@/components/footer";
 import { useState } from "react";
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
-import AnimatedTabs from "../components/AnimatedTabs";
-import AnimatedButton from "@/components/AnimatedButton";
 
 export default function Home() {
   const [activeText, setActiveText] = useState<number>(1);
