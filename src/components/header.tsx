@@ -69,7 +69,7 @@ const Header = () => {
           </a>
         </div>
         <div className="w-1/12 p-3 flex justify-center items-center bg-[#0B05BA] text-[#FFFEFD] rounded-md">
-          <button>Giriş Yap</button>
+          <a href="https://admin-j2kjfrifbq-ez.a.run.app/">Giriş Yap</a>
         </div>
       </nav>
       <div className="flex md:hidden justify-between items-center bg-transpara">
@@ -81,66 +81,75 @@ const Header = () => {
         </button>
       </div>
 
-      {isMenuOpen && (
-        <div className="absolute top-0 left-0 w-full bg-white shadow-lg z-10">
-          <ul className="flex flex-row gap-5 p-5 text-center text-[#525D7B] font-semibold text-base w-full">
-            <div className="flex flex-col justify-between gap-3 w-full">
+      <div
+        className={`absolute top-0 left-0 w-full bg-white shadow-lg z-10 transition-transform duration-300 ease-in-out ${
+          isMenuOpen ? "translate-y-0" : "-translate-y-full"
+        }`}
+      >
+        <ul className="flex flex-row gap-5 p-5 text-center text-[#525D7B] font-semibold text-base w-full">
+          <div className="flex flex-row items-center justify-between gap-3 w-full">
+            <div className="w-full flex flex-col gap-2 justify-start items-start">
               <li>
-                <a href="#" className="hover:text-[#0B05BA]">
+                <a href="#kimler-icin" className="hover:text-[#0B05BA]">
                   KİMLER İÇİN
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-[#0B05BA]">
+                <a href="#nasil-calisir" className="hover:text-[#0B05BA]">
                   NASIL ÇALIŞIR?
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-[#0B05BA]">
+                <a href="#referanslar" className="hover:text-[#0B05BA]">
                   REFERANSLAR
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-[#0B05BA]">
+                <a href="#iletisim" className="hover:text-[#0B05BA]">
                   İLETİŞİM
                 </a>
               </li>
-              <li className="flex justify-center gap-4">
-                <a
-                  href="https://apps.apple.com/tr/app/school-route/id6736696561?l=tr"
-                  target="_blank"
+            </div>
+            <li className="flex flex-col justify-center gap-4">
+              <div className="flex justify-end items-start">
+                <button
+                  className="text-2xl text-[#525D7B]"
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   <Image
-                    src="/images/app-store.svg"
-                    alt="App Store"
-                    width={120}
-                    height={30}
-                  />
-                </a>
-                <a
-                  href="https://play.google.com/store/apps/details?id=com.schoolbusmobile"
-                  target="_blank"
-                >
-                  <Image
-                    src="/images/google-play.svg"
+                    src="/images/close-icon.svg"
                     alt="Google Play"
-                    width={120}
-                    height={30}
+                    width={28}
+                    height={28}
                   />
-                </a>
-              </li>
-            </div>
-            <div className="flex justify-end items-start">
-              <button
-                className="text-2xl text-[#525D7B]"
-                onClick={() => setIsMenuOpen(false)}
+                </button>
+              </div>
+              <a
+                href="https://apps.apple.com/tr/app/school-route/id6736696561?l=tr"
+                target="_blank"
               >
-                ✕
-              </button>
-            </div>
-          </ul>
-        </div>
-      )}
+                <Image
+                  src="/images/app-store.svg"
+                  alt="App Store"
+                  width={120}
+                  height={40}
+                />
+              </a>
+              <a
+                href="https://play.google.com/store/apps/details?id=com.schoolbusmobile"
+                target="_blank"
+              >
+                <Image
+                  src="/images/google-play.svg"
+                  alt="Google Play"
+                  width={120}
+                  height={40}
+                />
+              </a>
+            </li>
+          </div>
+        </ul>
+      </div>
     </header>
   );
 };
