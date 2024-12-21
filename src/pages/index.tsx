@@ -15,7 +15,7 @@ export default function Home() {
     setActiveText(textNumber);
   };
   return (
-    <div>
+    <div className="scroll-smooth">
       <Head>
         <title>School Route</title>
         <meta name="description" content="School bus tracking" />
@@ -23,7 +23,7 @@ export default function Home() {
       </Head>
       <Header />
       <div className="w-full md:h-screen flex flex-col md:flex-row justify-center items-center bg-[#F5F8FF]">
-        <div className="md:w-2/5 md:gap-14 md:pl-20 md:m-0 m-5 gap-5 flex flex-col text-left ">
+        <div className="md:w-2/5 md:gap-8 md:pl-20 md:m-0 m-5 gap-5 flex flex-col text-left ">
           <div className="w-full flex">
             <Image
               src="/images/school-route.svg"
@@ -42,11 +42,8 @@ export default function Home() {
           </div>
           <div className="w-full flex flex-col ">
             <div className="w-full flex flex-row md:flex-col gap-1 md:gap-0">
-              <p className="leading-6 flex text-lg md:text-5xl font-nunito font-normal md:font-light  text-left text-[#0B05BA]">
-                Çocuğunuz
-              </p>
-              <p className="leading-6 flex text-lg md:text-5xl font-nunito font-normal md:font-light  text-left text-[#0B05BA]">
-                Nerede Olursa Olsun,
+              <p className="leading-6 flex text-lg md:text-5xl font-nunito font-normal md:font-light text-left text-[#0B05BA]">
+                Okul Servis Yönetiminde
               </p>
             </div>
             <p className="w-full leading-6 flex text-lg md:text-5xl font-nunito font-extrabold md:font-semibold  text-left text-[#0B05BA]">
@@ -55,10 +52,16 @@ export default function Home() {
           </div>
           <div className="w-full">
             <p className="font-roboto font-semibold text-xs md:text-base text-[#525D7B]">
-              School Route, okul yönetimleri, servis şoförleri ve veliler için
-              özel olarak geliştirilmiş bir mobil uygulamadır. Uygulama,
-              güvenlik, takip, kolaylık ve veri analizi temellerine dayanarak,
-              servis süreçlerinin modern, dijital ve sorunsuz yönetimini sağlar.
+              School Route, okul yönetimleri, servis şirketleri ve veliler için
+              özel olarak geliştirilmiş IOS, Android ve web tabalı çalışan mobil
+              uygulamadır. School Route, okul servis süreçlerinin daha güvenli,
+              şeffaf ve verimli bir şekilde yönetilmesini sağlar. Günümüzde
+              çocukların güvenli bir şekilde okula ulaşması ve eve dönüşleri,
+              veliler ve okul yönetimleri için en önemli öncelikler arasındadır.
+              School Route, tüm veli ve okul yöneticilerinin servis süreçlerini
+              eksiksiz ve güvenli bir şekilde takip etmesine imkan tanır. Veri
+              analizi temellerine dayanarak gerçekleştirilen raporlamalar
+              sayesinde, servis süreçlerinin sorunsuz yönetimini sağlar.
             </p>
           </div>
         </div>
@@ -79,18 +82,26 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className="w-full md:h-screen bg-[#FFFEFD] flex flex-col justify-center items-center">
-        <div className="flex flex-col w-full gap-5 justify-center items-center text-center pb-5 md:pb-10">
+      <div
+        id="kimler-icin"
+        className="w-full md:h-screen bg-[#FFFEFD] flex flex-col justify-center items-center"
+      >
+        <div className="flex flex-col w-full gap-5 justify-center items-center text-center pb-5 md:pb-0">
           <div>
             <p className="font-nunito text-lg mt-5 md:mt-0 md:text-5xl font-bold text-[#002B4B]">
               KİMLER İÇİN ?
             </p>
           </div>
-          <div className="flex text-center justify-center items-center w-full">
+          <div className="flex flex-col text-center justify-center items-center w-full">
+            <p className="font-roboto text-xs md:text-2xl font-semibold text-[#525D7B] w-full md:w-3/5">
+              Okul Yolculuğunda Yeni Bir Dönem!
+            </p>
             <p className="font-roboto text-xs md:text-base font-semibold text-[#525D7B] w-full md:w-3/5">
-              School Route, gelişmiş GPS, veri izleme ve analiz teknolojilerini
-              kullanarak servis süreçlerini üç farklı kullanıcı grubuna uygun
-              hale getirir okul yönetimi, veliler ve şoförler.
+              School Route, servis süreçleri takibi için üç farklı kullanıcı
+              grubuna hizmet sağlar.
+            </p>
+            <p className="font-roboto text-xs md:text-base font-semibold text-[#525D7B] w-full md:w-3/5">
+              Okullar - Veliler - Servis Şirketleri
             </p>
           </div>
         </div>
@@ -139,7 +150,7 @@ export default function Home() {
                 alt="Metin 1"
                 className="w-32 h-32 mx-auto"
               />
-              <p>Şoförler</p>
+              <p>Servis Şirketleri</p>
             </button>
           </div>
           <div className="hidden py-5 md:px-0 md:pt-10 md:flex flex-col justify-center items-center">
@@ -147,25 +158,25 @@ export default function Home() {
               <div className="flex flex-col w-3/5 justify-center items-center">
                 <ul className="flex flex-col w-full text-xs font-semibold text-left gap-2 ">
                   <li className="flex flex-row justify-start items-start gap-1 text-left">
-                    <p className="font-roboto text-[#525D7B] text-base">
+                    <div className="font-roboto font-normal leading-6 text-[#525D7B] text-base">
                       <p className="text-base text-[#007700] font-roboto">
                         Güvenliğin Artırılması:
                       </p>
                       Öğrenci güvenliğini önceliklendirir ve olası riskleri
                       minimize eder.
-                    </p>
+                    </div>
                   </li>
                   <li className="flex flex-row justify-start items-start gap-1 text-left">
-                    <p className="font-roboto text-[#525D7B] text-base">
+                    <div className="font-roboto font-normal leading-6 text-[#525D7B] text-base">
                       <p className="text-base text-[#007700] font-roboto">
                         Operasyonel Verimlilik:
                       </p>
                       Tüm servis operasyonlarını tek bir noktadan izleyerek,
                       hızlı ve etkili kararlar alabilmeyi sağlar.
-                    </p>
+                    </div>
                   </li>
                   <li className="flex flex-row justify-start items-start gap-1 text-left">
-                    <p className="font-roboto text-[#525D7B] text-base">
+                    <div className="font-roboto font-normal leading-6 text-[#525D7B] text-base">
                       <p className="text-base text-[#007700] font-roboto">
                         Raporlama ve Veri Analizi:
                       </p>
@@ -174,16 +185,16 @@ export default function Home() {
                       Öğrenci sayısındaki artış ya da azalış, güzergah
                       performansı ve yoğun servis saatleri gibi veriler
                       sayesinde okul yönetimi daha etkin planlamalar yapabilir.
-                    </p>
+                    </div>
                   </li>
                   <li className="flex flex-row justify-start items-start gap-1 text-left">
-                    <p className="font-roboto text-[#525D7B] text-base">
+                    <div className="font-roboto font-normal leading-6 text-[#525D7B] text-base">
                       <p className="text-base text-[#007700] font-roboto">
                         Ebeveyn Memnuniyeti:
                       </p>
                       Ebeveynlerin endişelerini gidermede büyük rol oynayarak
                       okulun güvenilirliğini ve veli memnuniyetini artırır.
-                    </p>
+                    </div>
                   </li>
                 </ul>
               </div>
@@ -192,42 +203,42 @@ export default function Home() {
               <div className="flex flex-col w-full justify-center items-center">
                 <ul className="flex flex-col w-full text-xs font-semibold text-left gap-3 ">
                   <li className="flex flex-row justify-start items-start gap-1 text-left">
-                    <p className="font-roboto text-[#525D7B] text-base">
+                    <div className="font-roboto font-normal leading-6 text-[#525D7B] text-base">
                       <p className="text-base text-[#007700] font-roboto">
                         Anlık Takip İmkanı:
                       </p>
                       Çocuklarının serviste olduğunu veya servisin eve
                       yaklaştığını anlık olarak görüp süreci takip etme imkanı
                       sağlar.
-                    </p>
+                    </div>
                   </li>
                   <li className="flex flex-row justify-start items-start gap-1 text-left">
-                    <p className="font-roboto text-[#525D7B] text-base">
+                    <div className="font-roboto font-normal leading-6 text-[#525D7B] text-base">
                       <p className="text-base text-[#007700] font-roboto">
                         Güven ve Şeffaflık:
                       </p>
                       Çocuklarının okula ve eve güvenle ulaşmasını
                       sağladığından, velilere güven verir.
-                    </p>
+                    </div>
                   </li>
                   <li className="flex flex-row justify-start items-start gap-1 text-left">
-                    <p className="font-roboto text-[#525D7B] text-base">
+                    <div className="font-roboto font-normal leading-6 text-[#525D7B] text-base">
                       <p className="text-base text-[#007700] font-roboto">
                         Zaman Yönetimi:
                       </p>
                       Servis güzergahlarının tahmin edilmesi, velilerin
                       çocuklarının ulaşımı ile ilgili daha iyi planlama
                       yapmalarını sağlar.
-                    </p>
+                    </div>
                   </li>
                   <li className="flex flex-row justify-start items-start gap-1 text-left">
-                    <p className="font-roboto text-[#525D7B] text-base">
+                    <div className="font-roboto font-normal leading-6 text-[#525D7B] text-base">
                       <p className="text-base text-[#007700] font-roboto">
                         Kendi İhtiyaçlarına Göre Özelleştirme:
                       </p>
                       Bildirim ve bilgi erişim ayarlarını kendi tercihleri
                       doğrultusunda yapılandırabilir.
-                    </p>
+                    </div>
                   </li>
                 </ul>
               </div>
@@ -236,32 +247,32 @@ export default function Home() {
               <div className="flex flex-col w-4/5 justify-center items-center">
                 <ul className="flex flex-col w-full text-xs font-semibold text-left gap-3 ">
                   <li className="flex flex-row justify-start items-start gap-1 text-left">
-                    <p className="font-roboto text-[#525D7B] text-base">
+                    <div className="font-roboto font-normal leading-6 text-[#525D7B] text-base">
                       <p className="text-base text-[#007700] font-roboto">
                         Verimli Rota Planlaması:
                       </p>
                       Rota planlaması, yakıt tasarrufu sağlar ve iş yükünü
                       hafifletir.
-                    </p>
+                    </div>
                   </li>
                   <li className="flex flex-row justify-start items-start gap-1 text-left">
-                    <p className="font-roboto text-[#525D7B] text-base">
+                    <div className="font-roboto font-normal leading-6 text-[#525D7B] text-base">
                       <p className="text-base text-[#007700] font-roboto">
                         Performans Geri Bildirimi:
                       </p>
                       Sürüş performansı ve uyum analizleri sayesinde, şoförler
                       kendi sürüş alışkanlıklarını değerlendirebilir ve
                       gerektiğinde iyileştirmeler yapabilir.
-                    </p>
+                    </div>
                   </li>
                   <li className="flex flex-row justify-start items-start gap-1 text-left">
-                    <p className="font-roboto text-[#525D7B] text-base">
+                    <div className="font-roboto font-normal leading-6 text-[#525D7B] text-base">
                       <p className="text-base text-[#007700] font-roboto">
                         Kolay Kullanımlı Arayüz:
                       </p>
                       Sürüş sırasında dikkat dağıtıcı faktörleri azaltan, sade
                       ve güvenli bir arayüzle şoförlerin işini kolaylaştırır.
-                    </p>
+                    </div>
                   </li>
                 </ul>
               </div>
@@ -269,7 +280,10 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="w-full md:h-screen flex flex-col justify-center items-center bg-[#F0EDFF] md:gap-5 gap-10">
+      <div
+        id="nasil-calisir"
+        className="w-full md:h-screen flex flex-col justify-center items-center bg-[#F0EDFF] md:gap-5 gap-10"
+      >
         <div className="w-11/12 flex flex-col gap-5 mt-10 md:mt-10">
           <div className="w-full text-left">
             <p className="text-[#002B4B] md:font-semibold md:text-5xl font-bold text-lg font-nunito">
@@ -279,10 +293,8 @@ export default function Home() {
           <div className="md:w-3/5 w-full text-left">
             <p className="font-roboto text-base text-[#002B4B">
               School Route, gelişmiş GPS, veri izleme ve analiz teknolojilerini
-              kullanarak servis süreçlerini üç farklı kullanıcı grubuna uygun
-              hale getirir: okul yönetimi, şoförler ve veliler. Bu kullanıcılar
-              için özelleştirilmiş arayüzleri ve kullanıcı dostu bir deneyim
-              sunar.
+              kullanır ve özelleştirilmiş arayüzleri ve kullanıcı dostu bir
+              deneyim sunar.
             </p>
           </div>
         </div>
@@ -391,7 +403,10 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="w-full my-10 md:my-0 md:h-screen flex flex-col justify-center items-center bg-[#FFFEFD] gap-10">
+      <div
+        id="referanslar"
+        className="w-full my-10 md:my-0 md:h-screen flex flex-col justify-center items-center bg-[#FFFEFD] gap-10"
+      >
         <div className="w-full flex flex-col justify-center items-center gap-5">
           <p className="text-lg md:text-5xl text-[#002B4B] font-bold font-nunito">
             REFERANSLAR
@@ -470,7 +485,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="w-full  flex flex-col bg-[#F5F8FF] justify-center items-center">
+      <div className="w-full  flex flex-col bg-[#F0EDFF] justify-center items-center">
         <div className="w-full mt-5 md:mt-0 h-1/5 flex flex-col justify-center md:justify-start md:pt-10 md:pl-20 items-center md:items-start gap-7">
           <p className="font-nunito text-lg md:text-5xl text-[#002B4B] font-bold">
             UYGULAMAYI İNDİR
@@ -486,7 +501,7 @@ export default function Home() {
               target="_blank"
             >
               <Image
-                src="/images/googleplay-link.png"
+                src="/images/google-transparan.svg"
                 alt="School Route Logo"
                 width={246}
                 height={77}
@@ -512,7 +527,7 @@ export default function Home() {
               target="_blank"
             >
               <Image
-                src="/images/appstore-link.png"
+                src="/images/apple-transparan.svg"
                 alt="School Route Logo"
                 width={246}
                 height={77}
@@ -551,16 +566,19 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className="w-full flex flex-col bg-[#FFFEFD] justify-center items-center ">
-        <div className="flex p-10 md:p-20 flex-col justify-center items-center w-full md:w-1/2 text-center gap-10">
+      <div
+        id="iletisim"
+        className="w-full flex flex-col bg-[#FFFEFD] justify-center items-center "
+      >
+        <div className="flex p-10 md:p-20 flex-col justify-center items-center w-full md:w-full text-center gap-10">
           <div className="font-nunito font-bold text-lg md:text-5xl text-[#002B4B]">
             İLETİŞİME GEÇİN
           </div>
           <div className="font-roboto font-semibold text-xs md:text-base text-[#525D7B]">
-            School Route’un tasarımı, tüm kullanıcıların rahat ve pratik bir
-            deneyim yaşaması için özel olarak tasarlanmıştır. Kullanıcının
-            deneyimini merkeze alarak işlemleri basitleştirir ve eğitim
-            kurumları için operasyonel fayda üretir.
+            Sizin için en doğru bilgiyi sağlamak ve aklınızdaki tüm soruları
+            yanıtlamak bizim için önemli.Hizmetlerimiz hakkında detaylı bilgi
+            almak ve size özel çözümlerimizi öğrenmek için bizimle iletişime
+            geçin ve birlikte harika bir başlangıç yapalım.
           </div>
         </div>
         <div className="w-full flex flex-col-reverse md:flex-row justify-between items-center">

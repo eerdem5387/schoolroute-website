@@ -4,7 +4,7 @@ import { useState } from "react";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
-    <header className="w-full bg-[#FFFEFD] p-4 flex flex-row md:h-36 items-center justify-between">
+    <header className=" w-full bg-[#FFFEFD] p-4 flex flex-row md:h-36 items-center justify-between">
       <Image
         src="/images/logo.svg"
         alt="School Route Logo"
@@ -22,22 +22,22 @@ const Header = () => {
       <nav className="hidden w-full md:flex flex-row justify-center items-center gap-20  font-roboto">
         <ul className="flex text-center gap-10 w-1/2 items-center justify-center text-[#525D7B] font-semibold text-base">
           <li>
-            <a href="#" className="hover:text-[#0B05BA]">
+            <a href="#kimler-icin" className="hover:text-[#0B05BA]">
               KİMLER İÇİN
             </a>
           </li>
           <li>
-            <a href="#" className="hover:text-[#0B05BA]">
+            <a href="#nasil-calisir" className="hover:text-[#0B05BA]">
               NASIL ÇALIŞIR?
             </a>
           </li>
           <li>
-            <a href="#" className="hover:text-[#0B05BA]">
+            <a href="#referanslar" className="hover:text-[#0B05BA]">
               REFERANSLAR
             </a>
           </li>
           <li>
-            <a href="#" className="hover:text-[#0B05BA]">
+            <a href="#iletisim" className="hover:text-[#0B05BA]">
               İLETİŞİM
             </a>
           </li>
