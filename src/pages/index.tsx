@@ -430,55 +430,10 @@ export default function Home() {
                 Levent Okulları:
               </p>
               <ul className="text-xs md:text-xl text-[#525D7B] font-roboto font-semibold">
-                <li>5 Okul</li>
-                <li>50 Servis</li>
-                <li>5000 öğrencisiyle</li>
+                <li>15 Servis</li>
+                <li>500 öğrencisiyle</li>
               </ul>
               <p className="text-[#525D7B] font-roboto font-normal md:text-xl text-xs w-full md:w-3/4 text-center">
-                School Route sistemini aktif olarak kullanmaktadır
-              </p>
-            </div>
-          </div>
-          <div className="md:flex hidden flex-col w-full md:w-1/3 gap-5 justify-center items-center">
-            <Image
-              src="/images/leventkolej.png"
-              alt="School Route Logo"
-              width={250}
-              height={250}
-              className="h-32 w-32 md:h-60 md:w-60 items-center justify-center"
-            />
-            <div className="text-center flex flex-col gap-3 justify-center items-center">
-              <p className="text-[#007700] font-roboto text-xl font-semibold">
-                Levent Okulları:
-              </p>
-              <ul className="text-xl text-[#525D7B] font-roboto font-semibold">
-                <li>5 Okul</li>
-                <li>50 Servis</li>
-                <li>5000 öğrencisiyle</li>
-              </ul>
-              <p className="text-[#525D7B] font-roboto font-normal text-xl w-3/4 text-center">
-                School Route sistemini aktif olarak kullanmaktadır
-              </p>
-            </div>
-          </div>
-          <div className="md:flex hidden flex-col w-full md:w-1/3 gap-5 justify-center items-center">
-            <Image
-              src="/images/leventkolej.png"
-              alt="School Route Logo"
-              width={250}
-              height={250}
-              className="md:-60 md:w-60 items-center justify-center"
-            />
-            <div className="text-center flex flex-col gap-3 justify-center items-center">
-              <p className="text-[#007700] font-roboto text-xl font-semibold">
-                Levent Okulları:
-              </p>
-              <ul className="text-xl text-[#525D7B] font-roboto font-semibold">
-                <li>5 Okul</li>
-                <li>50 Servis</li>
-                <li>5000 öğrencisiyle</li>
-              </ul>
-              <p className="text-[#525D7B] font-roboto font-normal text-xl w-3/4 text-center">
                 School Route sistemini aktif olarak kullanmaktadır
               </p>
             </div>
