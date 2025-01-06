@@ -84,13 +84,13 @@ const Footer = () => {
           </div>
           <div className="flex flex-col md:items-end gap-3 items-center">
             <a
-              href="#"
+              href="/privacy-policy"
               className="font-roboto text-[#525D7B] text-base font-semibold"
             >
               Çerez Politikası
             </a>
             <a
-              href="#"
+              href="/privacy-policy"
               className="font-roboto text-[#525D7B] text-base font-semibold"
             >
               Kullanıcı ve Gizlilik Politikası
