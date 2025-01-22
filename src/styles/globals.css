@@ -5,6 +5,24 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* Container styles */
+.container {
+  @apply mx-auto px-4;
+  max-width: 1440px; /* Large desktop */
+}
+
+/* Responsive text utilities */
+@layer utilities {
+  .text-responsive {
+    @apply text-sm md:text-base lg:text-lg;
+  }
+  
+  .heading-responsive {
+    @apply text-2xl md:text-3xl lg:text-4xl xl:text-5xl;
+  }
+}
+
 .menu-container {
   opacity: 0;
   transform: translateY(-20px);
@@ -29,4 +47,15 @@ html {
 .menu-container.active {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Responsive spacing utilities */
+@layer utilities {
+  .section-padding {
+    @apply py-8 md:py-12 lg:py-16;
+  }
+  
+  .content-margin {
+    @apply my-4 md:my-6 lg:my-8;
+  }
 }
