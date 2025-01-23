@@ -9,37 +9,58 @@ export default async function handler(
         return res.status(405).json({ message: 'Method not allowed' });
     }
 
-    const { companyName, email, phone, message } = req.body;
-
-    // Create a transporter using SMTP
-    const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: Number(process.env.SMTP_PORT),
-        secure: true, // true for 465, false for other ports
-        auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASS,
-        },
-    });
-
     try {
-        // Send email
-        await transporter.sendMail({
-            from: process.env.SMTP_USER,
-            to: process.env.CONTACT_EMAIL, // Your email address where you want to receive the form submissions
-            subject: 'Yeni İletişim Formu Mesajı',
-            html: `
-        <h2>Yeni İletişim Formu Mesajı</h2>
-        <p><strong>Kurum Adı:</strong> ${companyName}</p>
-        <p><strong>E-posta:</strong> ${email}</p>
-        <p><strong>Telefon:</strong> ${phone}</p>
-        <p><strong>Mesaj:</strong> ${message}</p>
-      `,
+        const { fullName, companyName, email, phone, message } = req.body;
+
+        // Debug log
+        console.log('Received form data:', { fullName, companyName, email, phone, message });
+
+        // Create transporter with error handling
+        const transporter = nodemailer.createTransport({
+            host: 'mail.kurumsaleposta.com',
+            port: 587, // 465 yerine 587 kullanıyoruz
+            secure: false, // TLS için false yapıyoruz
+            auth: {
+                user: 'no-reply@schoolroute.net',
+                pass: 'No.Replyschool12',
+            },
+            tls: {
+                rejectUnauthorized: false,
+                minVersion: 'TLSv1.2', // Minimum TLS versiyonunu belirtiyoruz
+            },
+            debug: true,
         });
 
-        res.status(200).json({ message: 'Email sent successfully' });
+        // Send email
+        try {
+            const info = await transporter.sendMail({
+                from: '"School Route" <no-reply@schoolroute.net>',
+                to: 'no-reply@schoolroute.net',
+                subject: 'İletişim Formu Mesajı',
+                html: `
+                    <h2>İletişim Formu Mesajı</h2>
+                    <p><strong>Ad Soyad:</strong> ${fullName}</p>
+                    <p><strong>Kurum Adı:</strong> ${companyName}</p>
+                    <p><strong>E-posta:</strong> ${email}</p>
+                    <p><strong>Telefon:</strong> ${phone}</p>
+                    <p><strong>Mesaj:</strong> ${message}</p>
+                `,
+            });
+
+            console.log('Message sent: %s', info.messageId);
+            return res.status(200).json({ message: 'Email sent successfully' });
+        } catch (sendError) {
+            console.error('Send Mail Error:', sendError);
+            return res.status(500).json({
+                message: 'Failed to send email',
+                error: sendError instanceof Error ? sendError.message : 'Unknown error'
+            });
+        }
     } catch (error) {
-        console.error('Error sending email:', error);
-        res.status(500).json({ message: 'Error sending email' });
+        console.error('General Error:', error);
+        return res.status(500).json({
+            message: 'Server error',
+            error: error instanceof Error ? error.message : 'Unknown error'
+        });
     }
 } 

@@ -14,6 +14,7 @@ export default function Home() {
   const [activeText, setActiveText] = useState<number>(1);
   const [activeReference, setActiveReference] = useState<number>(1);
   const [formData, setFormData] = useState({
+    fullName: "",
     companyName: "",
     email: "",
     phone: "",
@@ -91,6 +92,7 @@ export default function Home() {
       if (response.ok) {
         alert("Mesajınız başarıyla gönderildi!");
         setFormData({
+          fullName: "",
           companyName: "",
           email: "",
           phone: "",
@@ -110,7 +112,9 @@ export default function Home() {
     const { id, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [id === "input1"
+      [id === "input0"
+        ? "fullName"
+        : id === "input1"
         ? "companyName"
         : id === "input2"
         ? "email"
@@ -1190,6 +1194,30 @@ export default function Home() {
                       },
                     }}
                   >
+                    <motion.div
+  variants={{
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  }}
+  transition={{ duration: 0.5 }}
+  className="group relative"
+>
+  <input
+    id="input0"
+    type="text"
+    placeholder=" "
+    value={formData.fullName}
+    onChange={handleInputChange}
+    className="peer mt-1 block w-full px-4 py-3 bg-transparent border-b-2 border-[#525D7B] focus:border-[#0B05BA] outline-none transition-all placeholder-transparent"
+    required
+  />
+  <label
+    htmlFor="input0"
+    className="absolute left-4 -top-2 text-sm text-[#525D7B] transition-all duration-300 peer-placeholder-shown:text-base peer-placeholder-shown:top-4 peer-focus:-top-2 peer-focus:text-sm peer-focus:text-[#0B05BA]"
+  >
+    Ad Soyad
+  </label>
+</motion.div>
                     <motion.div
                       variants={{
                         hidden: { opacity: 0, y: 20 },
