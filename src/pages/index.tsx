@@ -127,9 +127,10 @@ export default function Home() {
   return (
     <div className="scroll-smooth">
       <Head>
-        <title>School Route</title>
-        <meta name="description" content="School bus tracking" />
-        <link rel="icon" href="/favicon.ico" />
+      <title>School Route</title>
+  <meta name="description" content="School bus tracking" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
       </Head>
       <Header />
       <main className="pt-[64px] md:pt-28">
