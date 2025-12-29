@@ -1,14 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
-import localFont from "next/font/local";
-import styles from "@/styles/Home.module.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { useState } from "react";
-import React, { useEffect } from "react";
-import ReactDOM from "react-dom/client";
 import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
 
 export default function Home() {
   const [activeText, setActiveText] = useState<number>(1);
@@ -21,6 +16,8 @@ export default function Home() {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
   const references = [
     {
@@ -29,34 +26,6 @@ export default function Home() {
       image: "/images/leventkolej.png",
       stats: ["15 Servis", "500 öğrencisiyle"],
       isPlaceholder: false,
-    },
-    {
-      id: 2,
-      name: "Referans 1",
-      image: "/images/leventkolej.png",
-      stats: ["25 Servis", "750 öğrencisiyle"],
-      isPlaceholder: true,
-    },
-    {
-      id: 3,
-      name: "Referans 2",
-      image: "/images/leventkolej.png",
-      stats: ["30 Servis", "1000 öğrencisiyle"],
-      isPlaceholder: true,
-    },
-    {
-      id: 4,
-      name: "Referans 3",
-      image: "/images/leventkolej.png",
-      stats: ["20 Servis", "600 öğrencisiyle"],
-      isPlaceholder: true,
-    },
-    {
-      id: 5,
-      name: "Referans 4",
-      image: "/images/leventkolej.png",
-      stats: ["35 Servis", "900 öğrencisiyle"],
-      isPlaceholder: true,
     },
   ];
 
@@ -76,9 +45,48 @@ export default function Home() {
     setActiveText(textNumber);
   };
 
+  const validateForm = (): boolean => {
+    const errors: Record<string, string> = {};
+    
+    if (!formData.fullName.trim()) {
+      errors.fullName = "Ad Soyad gereklidir";
+    }
+    
+    if (!formData.companyName.trim()) {
+      errors.companyName = "Kurum Adı gereklidir";
+    }
+    
+    if (!formData.email.trim()) {
+      errors.email = "E-Mail gereklidir";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.email = "Geçerli bir e-mail adresi giriniz";
+    }
+    
+    if (!formData.phone.trim()) {
+      errors.phone = "Telefon gereklidir";
+    } else if (!/^[\d\s\-\+\(\)]+$/.test(formData.phone)) {
+      errors.phone = "Geçerli bir telefon numarası giriniz";
+    }
+    
+    if (!formData.message.trim()) {
+      errors.message = "Mesaj gereklidir";
+    } else if (formData.message.trim().length < 10) {
+      errors.message = "Mesaj en az 10 karakter olmalıdır";
+    }
+    
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+    
     setIsSubmitting(true);
+    setSubmitStatus("idle");
 
     try {
       const response = await fetch("/api/contact", {
@@ -90,7 +98,7 @@ export default function Home() {
       });
 
       if (response.ok) {
-        alert("Mesajınız başarıyla gönderildi!");
+        setSubmitStatus("success");
         setFormData({
           fullName: "",
           companyName: "",
@@ -98,11 +106,16 @@ export default function Home() {
           phone: "",
           message: "",
         });
+        setFormErrors({});
+        // Auto-hide success message after 5 seconds
+        setTimeout(() => setSubmitStatus("idle"), 5000);
       } else {
-        alert("Bir hata oluştu. Lütfen tekrar deneyiniz.");
+        setSubmitStatus("error");
+        setTimeout(() => setSubmitStatus("idle"), 5000);
       }
     } catch (error) {
-      alert("Bir hata oluştu. Lütfen tekrar deneyiniz.");
+      setSubmitStatus("error");
+      setTimeout(() => setSubmitStatus("idle"), 5000);
     } finally {
       setIsSubmitting(false);
     }
@@ -125,18 +138,43 @@ export default function Home() {
   };
 
   return (
-    <div className="scroll-smooth">
+    <div className="scroll-smooth" lang="tr">
       <Head>
-      <title>School Route</title>
-  <meta name="description" content="School bus tracking" />
-  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <title>School Route - Okul Servis Yönetiminde Kontrol Sizde</title>
+        <meta 
+          name="description" 
+          content="School Route, okul yönetimleri, servis şirketleri ve veliler için özel olarak geliştirilmiş iOS, Android ve web tabanlı mobil uygulamadır. Okul servis süreçlerinin daha güvenli, şeffaf ve verimli yönetimi." 
+        />
+        <meta name="keywords" content="okul servisi, servis takibi, okul yönetimi, veli uygulaması, servis güvenliği, GPS takip" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="author" content="School Route" />
+        <meta name="robots" content="index, follow" />
+        <meta name="language" content="Turkish" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://schoolroute.com.tr/" />
+        <meta property="og:title" content="School Route - Okul Servis Yönetiminde Kontrol Sizde" />
+        <meta property="og:description" content="Okul servis süreçlerinin daha güvenli, şeffaf ve verimli yönetimi için School Route uygulamasını kullanın." />
+        <meta property="og:image" content="/images/og-image.png" />
+        
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://schoolroute.com.tr/" />
+        <meta property="twitter:title" content="School Route - Okul Servis Yönetiminde Kontrol Sizde" />
+        <meta property="twitter:description" content="Okul servis süreçlerinin daha güvenli, şeffaf ve verimli yönetimi için School Route uygulamasını kullanın." />
+        <meta property="twitter:image" content="/images/og-image.png" />
+        
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
       </Head>
       <Header />
-      <main className="pt-[64px] md:pt-28">
-        <div className="w-full min-h-screen flex flex-col md:flex-row justify-center items-center bg-[#F5F8FF] section-padding">
-          <div className="container flex flex-col md:flex-row items-center justify-between">
-            <div className="w-full md:w-2/5 flex flex-col space-y-6 md:space-y-8 px-4 md:px-8">
+      <main className="pt-[56px] md:pt-28" role="main">
+        <div className="w-full min-h-[calc(100vh-56px)] md:min-h-screen flex flex-col md:flex-row justify-center items-center bg-[#F5F8FF] py-8 md:py-12 lg:py-16">
+          <div className="container flex flex-col md:flex-row items-center justify-between gap-8 md:gap-0">
+            <div className="w-full md:w-2/5 flex flex-col space-y-4 md:space-y-8 px-4 md:px-8">
               <motion.div
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -145,10 +183,11 @@ export default function Home() {
               >
                 <Image
                   src="/images/school-route.svg"
-                  alt="School Route Logo"
+                  alt="School Route - Okul Servis Yönetim Sistemi"
                   width={261}
                   height={30}
                   className="h-8 w-auto"
+                  priority
                 />
               </motion.div>
               <motion.div
@@ -157,10 +196,10 @@ export default function Home() {
                 transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
                 className="w-full flex flex-col space-y-2"
               >
-                <p className="text-2xl md:text-4xl font-nunito font-semibold text-[#0B05BA]">
+                <p className="text-xl sm:text-2xl md:text-4xl font-nunito font-semibold text-[#0B05BA] leading-tight">
                   Okul Servis Yönetiminde
                 </p>
-                <p className="heading-responsive font-nunito font-bold text-[#0B05BA]">
+                <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-nunito font-bold text-[#0B05BA] leading-tight">
                   Kontrol Sizde
                 </p>
               </motion.div>
@@ -170,7 +209,7 @@ export default function Home() {
                 transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
                 className="w-full"
               >
-                <p className="font-roboto text-base text-[#525D7B]">
+                <p className="font-roboto text-sm sm:text-base text-[#525D7B] leading-relaxed">
                   School Route, okul yönetimleri, servis şirketleri ve veliler
                   için özel olarak geliştirilmiş IOS, Android ve web tabalı
                   çalışan mobil uygulamadır. School Route, okul servis
@@ -179,7 +218,7 @@ export default function Home() {
                   okula ulaşması ve eve dönüşleri, veliler ve okul yönetimleri
                   için en önemli öncelikler arasındadır.
                 </p>
-                <p className="font-roboto text-base text-[#525D7B] mt-4">
+                <p className="font-roboto text-sm sm:text-base text-[#525D7B] mt-3 md:mt-4 leading-relaxed">
                   School Route, tüm veli ve okul yöneticilerin servis
                   süreçlerini eksiksiz ve güvenli bir şekilde takip etmesine
                   imkan tanır. Veri analizi temellerine dayanarak
@@ -196,17 +235,19 @@ export default function Home() {
               >
                 <Image
                   src="/images/newslider.png"
-                  alt="School Route Slider"
+                  alt="School Route uygulaması ekran görüntüleri"
                   width={1188}
                   height={571}
                   className="hidden md:block w-full h-auto"
+                  priority
                 />
                 <Image
                   src="/images/mobil-slider.svg"
-                  alt="School Route Mobil Slider"
+                  alt="School Route mobil uygulama ekran görüntüleri"
                   width={280}
                   height={270}
                   className="md:hidden w-full h-auto"
+                  priority
                 />
               </motion.div>
             </div>
@@ -214,14 +255,14 @@ export default function Home() {
         </div>
         <div
           id="kimler-icin"
-          className="w-full min-h-screen bg-[#FFFEFD] section-padding scroll-mt-[64px] md:scroll-mt-28"
+          className="w-full min-h-[calc(100vh-56px)] md:min-h-screen bg-[#FFFEFD] py-8 md:py-12 lg:py-16 scroll-mt-[56px] md:scroll-mt-28"
         >
           <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-nunito font-bold text-[#002B4B] mb-4">
+            <div className="text-center mb-8 md:mb-16">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-nunito font-bold text-[#002B4B] mb-3 md:mb-4 px-2">
                 KİMLER İÇİN ?
               </h2>
-              <p className="text-base font-roboto text-[#525D7B] max-w-3xl mx-auto">
+              <p className="text-sm sm:text-base font-roboto text-[#525D7B] max-w-3xl mx-auto px-2 leading-relaxed">
                 School Route, gelişmiş GPS, veri izleme ve analiz
                 teknolojilerini kullanarak servis süreçlerini üç farklı
                 kullanıcı grubuna uygun hale getirir: okul yönetimi, veliler ve
@@ -230,12 +271,14 @@ export default function Home() {
             </div>
 
             {/* Cards Container */}
-            <div className="flex flex-col md:flex-row justify-center items-start gap-8 md:gap-20 mb-8">
+            <div className="flex flex-col md:flex-row justify-center items-start gap-6 md:gap-20 mb-6 md:mb-8">
               {/* Okullar Card */}
               <div className="relative w-full md:w-auto flex flex-col items-center">
                 <motion.button
                   onClick={() => handleSwitch(1)}
-                  className={`w-full md:w-56 min-h-[14rem] md:h-56 rounded-lg flex flex-col items-center justify-center transition-all ${
+                  aria-label="Okullar için özellikler"
+                  aria-pressed={activeText === 1}
+                  className={`w-full md:w-56 min-h-[12rem] sm:min-h-[14rem] md:h-56 rounded-lg flex flex-col items-center justify-center transition-all focus:outline-none focus:ring-2 focus:ring-[#0B05BA] focus:ring-offset-2 touch-manipulation ${
                     activeText === 1
                       ? "border-2 border-[#0B05BA]"
                       : "bg-[#EFEFF7]"
@@ -244,6 +287,8 @@ export default function Home() {
                     scale: activeText === 1 ? 1.02 : 1,
                     transition: { duration: 0.4, ease: "easeInOut" },
                   }}
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
                 >
                   <motion.div
                     className="md:hidden"
@@ -282,9 +327,9 @@ export default function Home() {
                         <img
                           src="/images/okulicon.png"
                           alt="Okullar"
-                          className="w-32 h-32 mb-4"
+                          className="w-24 h-24 sm:w-32 sm:h-32 mb-3 md:mb-4"
                         />
-                        <p className="text-lg font-roboto text-[#002B4B]">
+                        <p className="text-base sm:text-lg font-roboto text-[#002B4B] font-semibold">
                           Okullar
                         </p>
                       </motion.div>
@@ -321,7 +366,9 @@ export default function Home() {
               <div className="relative w-full md:w-auto flex flex-col items-center">
                 <motion.button
                   onClick={() => handleSwitch(2)}
-                  className={`w-full md:w-56 min-h-[14rem] md:h-56 rounded-lg flex flex-col items-center justify-center transition-all ${
+                  aria-label="Veliler için özellikler"
+                  aria-pressed={activeText === 2}
+                  className={`w-full md:w-56 min-h-[12rem] sm:min-h-[14rem] md:h-56 rounded-lg flex flex-col items-center justify-center transition-all focus:outline-none focus:ring-2 focus:ring-[#0B05BA] focus:ring-offset-2 touch-manipulation ${
                     activeText === 2
                       ? "border-2 border-[#0B05BA]"
                       : "bg-[#EFEFF7]"
@@ -330,6 +377,8 @@ export default function Home() {
                     scale: activeText === 2 ? 1.02 : 1,
                     transition: { duration: 0.4, ease: "easeInOut" },
                   }}
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
                 >
                   <motion.div
                     className="md:hidden"
@@ -368,9 +417,9 @@ export default function Home() {
                         <img
                           src="/images/veliicon.png"
                           alt="Veliler"
-                          className="w-32 h-32 mb-4"
+                          className="w-24 h-24 sm:w-32 sm:h-32 mb-3 md:mb-4"
                         />
-                        <p className="text-lg font-roboto text-[#002B4B]">
+                        <p className="text-base sm:text-lg font-roboto text-[#002B4B] font-semibold">
                           Veliler
                         </p>
                       </motion.div>
@@ -407,7 +456,9 @@ export default function Home() {
               <div className="relative w-full md:w-auto flex flex-col items-center">
                 <motion.button
                   onClick={() => handleSwitch(3)}
-                  className={`w-full md:w-56 min-h-[14rem] md:h-56 rounded-lg flex flex-col items-center justify-center transition-all ${
+                  aria-label="Servis Şirketleri için özellikler"
+                  aria-pressed={activeText === 3}
+                  className={`w-full md:w-56 min-h-[12rem] sm:min-h-[14rem] md:h-56 rounded-lg flex flex-col items-center justify-center transition-all focus:outline-none focus:ring-2 focus:ring-[#0B05BA] focus:ring-offset-2 touch-manipulation ${
                     activeText === 3
                       ? "border-2 border-[#0B05BA]"
                       : "bg-[#EFEFF7]"
@@ -416,6 +467,8 @@ export default function Home() {
                     scale: activeText === 3 ? 1.02 : 1,
                     transition: { duration: 0.4, ease: "easeInOut" },
                   }}
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
                 >
                   <motion.div
                     className="md:hidden"
@@ -451,9 +504,9 @@ export default function Home() {
                         <img
                           src="/images/soforicon.png"
                           alt="Servis Şirketleri"
-                          className="w-32 h-32 mb-4"
+                          className="w-24 h-24 sm:w-32 sm:h-32 mb-3 md:mb-4"
                         />
-                        <p className="text-lg font-roboto text-[#002B4B]">
+                        <p className="text-base sm:text-lg font-roboto text-[#002B4B] font-semibold">
                           Servis Şirketleri
                         </p>
                       </motion.div>
@@ -730,19 +783,20 @@ export default function Home() {
         </div>
         <div
           id="nasil-calisir"
-          className="w-full md:h-screen flex flex-col justify-center items-center bg-[#F0EDFF] md:gap-5 gap-10 scroll-mt-[64px] md:scroll-mt-28"
+          className="w-full min-h-[calc(100vh-56px)] md:h-screen flex flex-col justify-center items-center bg-[#F0EDFF] py-8 md:py-12 lg:py-16 md:gap-5 gap-6 md:gap-10 scroll-mt-[56px] md:scroll-mt-28"
         >
-          <div className="w-11/12 flex flex-col gap-5 mt-10 md:mt-10">
+          <div className="w-11/12 max-w-7xl mx-auto flex flex-col gap-4 md:gap-5 mt-6 md:mt-10 px-2">
             <div className="w-full text-left">
-              <p className="text-[#002B4B] md:font-semibold md:text-5xl font-bold text-lg font-nunito">
+              <p className="text-[#002B4B] text-xl sm:text-2xl md:text-4xl lg:text-5xl md:font-semibold font-bold font-nunito">
                 NASIL ÇALIŞIR ?
               </p>
             </div>
-            <div className="md:w-3/5 w-full text-left">
-              <p className="font-roboto text-base text-[#002B4B">
-                School Route, gelişmiş GPS, veri izleme ve analiz
-                teknolojilerini kullanır ve özelleştirilmiş arayüzleri ve
-                kullanıcı dostu bir deneyim sunar.
+            <div className="md:w-4/5 w-full text-left">
+              <p className="font-roboto text-sm sm:text-base md:text-lg text-[#002B4B] leading-relaxed mb-4">
+                School Route, okul servis yönetimini dijitalleştiren ve tüm süreçleri tek bir platformda birleştiren kapsamlı bir çözümdür. Sistem, gelişmiş GPS teknolojisi, gerçek zamanlı veri izleme ve akıllı analiz araçları kullanarak okul yönetimleri, veliler ve servis şirketleri için özelleştirilmiş arayüzler sunar.
+              </p>
+              <p className="font-roboto text-sm sm:text-base md:text-lg text-[#002B4B] leading-relaxed">
+                Platform, kullanıcı dostu tasarımı ve sezgisel navigasyonu sayesinde her yaş grubundan kullanıcının kolayca adapte olabileceği bir deneyim sağlar. Mobil uygulama ve web arayüzü üzerinden erişilebilen sistem, 7/24 kesintisiz hizmet vererek okul servis süreçlerinin tam kontrolünü sağlar.
               </p>
             </div>
           </div>
@@ -752,8 +806,8 @@ export default function Home() {
           </span>
         </div> */}
         </div>
-        <div className="w-full md:p-10 flex flex-col justify-center items-center  bg-[#0B05BA] gap-10">
-          <div className="w-full items-center flex flex-col gap-5 mt-10 md:mt-0 mb-10 md:mb-0">
+        <div className="w-full p-4 md:p-10 flex flex-col justify-center items-center bg-[#0B05BA] gap-6 md:gap-10">
+          <div className="w-full max-w-7xl mx-auto items-center flex flex-col gap-4 md:gap-5 mt-6 md:mt-10 mb-6 md:mb-10">
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -773,9 +827,9 @@ export default function Home() {
                   visible: { opacity: 1, x: 0 },
                 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="w-11/12 md:w-full rounded-lg bg-[#FFFEFD] h-11 md:h-20 flex flex-row justify-between items-center"
+                className="w-full md:w-full rounded-lg bg-[#FFFEFD] min-h-[3.5rem] md:h-20 flex flex-row justify-between items-center px-3 md:px-5 py-2 md:py-0"
               >
-                <p className="font-nunito text-xs md:text-2xl text-[#002B4B] pl-5 font-bold">
+                <p className="font-nunito text-sm sm:text-base md:text-xl lg:text-2xl text-[#002B4B] pl-2 md:pl-5 font-bold leading-tight">
                   Gerçek Zamanlı Konum Takibi
                 </p>
                 <Image
@@ -800,9 +854,9 @@ export default function Home() {
                   visible: { opacity: 1, x: 0 },
                 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="w-11/12 md:w-full rounded-lg bg-[#FFFEFD] h-11 md:h-20 flex flex-row justify-between items-center"
+                className="w-full md:w-full rounded-lg bg-[#FFFEFD] min-h-[3.5rem] md:h-20 flex flex-row justify-between items-center px-3 md:px-5 py-2 md:py-0"
               >
-                <p className="font-nunito text-xs md:text-2xl text-[#002B4B] pl-5 font-bold">
+                <p className="font-nunito text-sm sm:text-base md:text-xl lg:text-2xl text-[#002B4B] pl-2 md:pl-5 font-bold leading-tight">
                   Rota Optimizasyonu ve Verimlilik
                 </p>
                 <Image
@@ -827,9 +881,9 @@ export default function Home() {
                   visible: { opacity: 1, x: 0 },
                 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="w-11/12 md:w-full rounded-lg bg-[#FFFEFD] h-11 md:h-20 flex flex-row justify-between items-center"
+                className="w-full md:w-full rounded-lg bg-[#FFFEFD] min-h-[3.5rem] md:h-20 flex flex-row justify-between items-center px-3 md:px-5 py-2 md:py-0"
               >
-                <p className="font-nunito text-xs md:text-2xl text-[#002B4B] pl-5 font-bold">
+                <p className="font-nunito text-sm sm:text-base md:text-xl lg:text-2xl text-[#002B4B] pl-2 md:pl-5 font-bold leading-tight">
                   Anlık Bildirimler ve Uyarılar
                 </p>
                 <Image
@@ -854,9 +908,9 @@ export default function Home() {
                   visible: { opacity: 1, x: 0 },
                 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="w-11/12 md:w-full rounded-lg bg-[#FFFEFD] h-11 md:h-20 flex flex-row justify-between items-center"
+                className="w-full md:w-full rounded-lg bg-[#FFFEFD] min-h-[3.5rem] md:h-20 flex flex-row justify-between items-center px-3 md:px-5 py-2 md:py-0"
               >
-                <p className="font-nunito text-xs md:text-2xl text-[#002B4B] pl-5 font-bold">
+                <p className="font-nunito text-sm sm:text-base md:text-xl lg:text-2xl text-[#002B4B] pl-2 md:pl-5 font-bold leading-tight">
                   Öğrenci ve Servis Güvenliği Takibi
                 </p>
                 <Image
@@ -881,9 +935,9 @@ export default function Home() {
                   visible: { opacity: 1, x: 0 },
                 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="w-11/12 md:w-full rounded-lg bg-[#FFFEFD] h-11 md:h-20 flex flex-row justify-between items-center"
+                className="w-full md:w-full rounded-lg bg-[#FFFEFD] min-h-[3.5rem] md:h-20 flex flex-row justify-between items-center px-3 md:px-5 py-2 md:py-0"
               >
-                <p className="font-nunito text-xs md:text-2xl text-[#002B4B] pl-5 font-bold">
+                <p className="font-nunito text-sm sm:text-base md:text-xl lg:text-2xl text-[#002B4B] pl-2 md:pl-5 font-bold leading-tight">
                   Veri Analizi ve Raporlama Özelliği
                 </p>
                 <Image
@@ -906,15 +960,15 @@ export default function Home() {
         </div>
         <div
           id="referanslar"
-          className="w-full my-10 md:my-0 md:h-screen flex flex-col justify-center items-center bg-[#FFFEFD] gap-10 scroll-mt-[64px] md:scroll-mt-28"
+          className="w-full py-10 md:py-0 md:h-screen flex flex-col justify-center items-center bg-[#FFFEFD] gap-6 md:gap-10 scroll-mt-[56px] md:scroll-mt-28"
         >
-          <div className="w-full flex flex-col justify-center items-center gap-5">
+          <div className="w-full flex flex-col justify-center items-center gap-4 md:gap-5 px-4">
             <motion.p
               initial={{ opacity: 0, y: -20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="text-lg md:text-5xl text-[#002B4B] font-bold font-nunito"
+              className="text-xl sm:text-2xl md:text-4xl lg:text-5xl text-[#002B4B] font-bold font-nunito text-center"
             >
               REFERANSLAR
             </motion.p>
@@ -923,65 +977,14 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="w-11/12 md:w-1/3 font-roboto text-xs md:text-base font-semibold text-[#525D7B] text-center"
+              className="w-full md:w-1/3 font-roboto text-xs sm:text-sm md:text-base font-semibold text-[#525D7B] text-center px-2 leading-relaxed"
             >
               School Route sistemiyle servis süreçlerinden maksimum verimi
               almayı seçmiş bazı kurumlar:
             </motion.p>
           </div>
-          <div className="w-full flex flex-col md:flex-row justify-center items-center gap-10">
-            {/* Previous Reference */}
-            <motion.div
-              onClick={() => handleReferenceClick("prev")}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 0.5, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-col w-full md:w-1/3 gap-5 justify-center items-center blur-[1px] cursor-pointer hover:opacity-70 transition-opacity"
-            >
-              <div className="h-32 w-32 md:h-60 md:w-60 bg-[#F0EDFF] rounded-full flex items-center justify-center">
-                {references[
-                  (activeReference - 2 + references.length) % references.length
-                ].isPlaceholder ? (
-                  <span className="text-[#0B05BA] font-nunito font-bold text-lg md:text-2xl">
-                    Yakında
-                  </span>
-                ) : (
-                  <Image
-                    src={getImageSrc(
-                      references[
-                        (activeReference - 2 + references.length) %
-                          references.length
-                      ]
-                    )}
-                    alt="Reference"
-                    width={250}
-                    height={250}
-                    className="h-32 w-32 md:h-60 md:w-60 rounded-full object-cover"
-                  />
-                )}
-              </div>
-              <div className="text-center flex flex-col gap-3 justify-center items-center">
-                <p className="text-[#007700] font-roboto text-sm md:text-xl font-semibold">
-                  {
-                    references[
-                      (activeReference - 2 + references.length) %
-                        references.length
-                    ].name
-                  }
-                </p>
-                <ul className="text-xs md:text-xl text-[#525D7B] font-roboto font-semibold">
-                  {references[
-                    (activeReference - 2 + references.length) %
-                      references.length
-                  ].stats.map((stat, index) => (
-                    <li key={index}>{stat}</li>
-                  ))}
-                </ul>
-              </div>
-            </motion.div>
-
-            {/* Current Reference */}
+          <div className="w-full max-w-7xl mx-auto flex justify-center items-center px-4">
+            {/* Levent Okulları - Only Reference */}
             <motion.div
               layout
               key={activeReference}
@@ -989,94 +992,45 @@ export default function Home() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ duration: 0.4 }}
-              className="flex flex-col w-full md:w-1/3 gap-5 justify-center items-center order-first md:order-none"
+              className="flex flex-col w-full md:w-auto gap-4 md:gap-5 justify-center items-center"
             >
-              {references[activeReference - 1].isPlaceholder ? (
-                <div className="h-32 w-32 md:h-60 md:w-60 bg-[#F0EDFF] rounded-full flex items-center justify-center">
-                  <span className="text-[#0B05BA] font-nunito font-bold text-lg md:text-2xl">
-                    Yakında
-                  </span>
-                </div>
-              ) : (
-                <Image
-                  src={getImageSrc(references[activeReference - 1])}
-                  alt="Reference"
-                  width={250}
-                  height={250}
-                  className="h-32 w-32 md:h-60 md:w-60 rounded-full object-cover"
-                />
-              )}
+              <Image
+                src={getImageSrc(references[activeReference - 1])}
+                alt="Levent Okulları"
+                width={250}
+                height={250}
+                className="h-32 w-32 sm:h-40 sm:w-40 md:h-60 md:w-60 rounded-full object-cover"
+              />
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                className="text-center flex flex-col gap-3 justify-center items-center"
+                className="text-center flex flex-col gap-2 md:gap-3 justify-center items-center"
               >
-                <p className="text-[#007700] font-roboto text-sm md:text-xl font-semibold">
+                <p className="text-[#007700] font-roboto text-base sm:text-lg md:text-xl lg:text-2xl font-semibold">
                   {references[activeReference - 1].name}
                 </p>
-                <ul className="text-xs md:text-xl text-[#525D7B] font-roboto font-semibold">
+                <ul className="text-sm sm:text-base md:text-lg lg:text-xl text-[#525D7B] font-roboto font-semibold">
                   {references[activeReference - 1].stats.map((stat, index) => (
                     <li key={index}>{stat}</li>
                   ))}
                 </ul>
               </motion.div>
             </motion.div>
-
-            {/* Next Reference */}
-            <motion.div
-              onClick={() => handleReferenceClick("next")}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 0.5, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="flex flex-col w-full md:w-1/3 gap-5 justify-center items-center blur-[1px] cursor-pointer hover:opacity-70 transition-opacity"
-            >
-              <div className="h-32 w-32 md:h-60 md:w-60 bg-[#F0EDFF] rounded-full flex items-center justify-center">
-                {references[activeReference % references.length]
-                  .isPlaceholder ? (
-                  <span className="text-[#0B05BA] font-nunito font-bold text-lg md:text-2xl">
-                    Yakında
-                  </span>
-                ) : (
-                  <Image
-                    src={getImageSrc(
-                      references[activeReference % references.length]
-                    )}
-                    alt="Reference"
-                    width={250}
-                    height={250}
-                    className="h-32 w-32 md:h-60 md:w-60 rounded-full object-cover"
-                  />
-                )}
-              </div>
-              <div className="text-center flex flex-col gap-3 justify-center items-center">
-                <p className="text-[#007700] font-roboto text-sm md:text-xl font-semibold">
-                  {references[activeReference % references.length].name}
-                </p>
-                <ul className="text-xs md:text-xl text-[#525D7B] font-roboto font-semibold">
-                  {references[activeReference % references.length].stats.map(
-                    (stat, index) => (
-                      <li key={index}>{stat}</li>
-                    )
-                  )}
-                </ul>
-              </div>
-            </motion.div>
           </div>
         </div>
-        <div className="w-full md:min-h-screen bg-[#F0EDFF] flex flex-col">
+        <div className="w-full min-h-[calc(100vh-56px)] md:min-h-screen bg-[#F0EDFF] flex flex-col">
           {/* Top Section - Text and Download Buttons */}
-          <div className="container mx-auto px-4 md:px-20 pt-6 md:pt-20">
+          <div className="container mx-auto px-4 md:px-20 pt-6 md:pt-20 pb-4 md:pb-0">
             <div className="w-full md:max-w-lg">
-              <h2 className="font-nunito text-2xl md:text-4xl text-[#002B4B] font-bold mb-2">
+              <h2 className="font-nunito text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#002B4B] font-bold mb-2 md:mb-3">
                 UYGULAMAYI İNDİR
               </h2>
-              <p className="text-[#525D7B] font-roboto font-normal text-sm md:text-base mb-3">
+              <p className="text-[#525D7B] font-roboto font-normal text-sm sm:text-base mb-4 md:mb-6 leading-relaxed">
                 School Route uygulaması hem IOS hem de Android cihazınızda
                 kullanabilirsiniz. Hemen Deneyin.
               </p>
-              <div className="flex flex-row gap-4">
+              <div className="flex flex-row gap-3 md:gap-4">
                 <a
                   href="https://play.google.com/store/apps/details?id=com.schoolbusmobile"
                   className="cursor-pointer"
@@ -1087,20 +1041,21 @@ export default function Home() {
                     alt="Google Play"
                     width={120}
                     height={36}
-                    className="w-auto h-8"
-                  />
+                  className="w-auto h-7 sm:h-8"
+                />
                 </a>
                 <a
                   href="https://apps.apple.com/tr/app/school-route/id6736696561?l=tr"
                   className="cursor-pointer"
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <Image
                     src="/images/apple-transparan.svg"
                     alt="App Store"
                     width={120}
                     height={36}
-                    className="w-auto h-8"
+                    className="w-auto h-7 sm:h-8"
                   />
                 </a>
               </div>
@@ -1108,7 +1063,7 @@ export default function Home() {
           </div>
 
           {/* Bottom Section - Phone Images */}
-          <div className="w-full flex-grow flex items-end mt-10 md:mt-auto">
+          <div className="w-full flex-grow flex items-end mt-6 md:mt-10 lg:mt-auto">
             <motion.div
               initial={{ y: 100, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
@@ -1119,17 +1074,19 @@ export default function Home() {
               <div className="w-full flex justify-center">
                 <Image
                   src="/images/dowload-gorsel.png"
-                  alt="School Route App Screenshots"
+                  alt="School Route uygulaması ekran görüntüleri - iPhone ve Android cihazlarda"
                   width={1000}
                   height={600}
                   className="hidden md:block w-[80%] h-auto"
+                  loading="lazy"
                 />
                 <Image
                   src="/images/mobil-dowload-alani.png"
-                  alt="School Route App Screenshots"
+                  alt="School Route mobil uygulama ekran görüntüleri"
                   width={353}
                   height={365}
                   className="block md:hidden w-full h-auto"
+                  loading="lazy"
                 />
               </div>
             </motion.div>
@@ -1137,15 +1094,15 @@ export default function Home() {
         </div>
         <div
           id="iletisim"
-          className="w-full flex flex-col bg-[#FFFEFD] justify-center items-center scroll-mt-[64px] md:scroll-mt-28"
+          className="w-full flex flex-col bg-[#FFFEFD] justify-center items-center py-8 md:py-12 lg:py-20 scroll-mt-[56px] md:scroll-mt-28"
         >
-          <div className="flex p-10 md:p-20 flex-col justify-center items-center w-full md:w-full text-center gap-10">
+          <div className="flex p-4 sm:p-6 md:p-10 lg:p-20 flex-col justify-center items-center w-full text-center gap-6 md:gap-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="font-nunito font-bold text-lg md:text-5xl text-[#002B4B]"
+              className="font-nunito font-bold text-xl sm:text-2xl md:text-3xl lg:text-5xl text-[#002B4B] px-4"
             >
               İLETİŞİME GEÇİN
             </motion.div>
@@ -1154,7 +1111,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="font-roboto font-semibold text-xs md:text-base text-[#525D7B]"
+              className="font-roboto font-semibold text-xs sm:text-sm md:text-base text-[#525D7B] max-w-3xl mx-auto px-4 leading-relaxed"
             >
               Sizin için en doğru bilgiyi sağlamak ve aklınızdaki tüm soruları
               yanıtlamak bizim için önemli. Hizmetlerimiz hakkında detaylı bilgi
@@ -1162,9 +1119,9 @@ export default function Home() {
               geçin ve birlikte harika bir başlangıç yapalım.
             </motion.div>
           </div>
-          <div className="w-full flex flex-col-reverse md:flex-row justify-between items-center">
+          <div className="w-full flex flex-col-reverse md:flex-row justify-between items-start md:items-center gap-8 md:gap-0">
             <motion.div
-              className="flex w-full md:w-1/2 mt-10 md:mt-0"
+              className="flex w-full md:w-1/2 mt-6 md:mt-0"
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -1172,53 +1129,67 @@ export default function Home() {
             >
               <Image
                 src="/images/contact-img.png"
-                alt="School Route Logo"
+                alt="İletişim - School Route ile iletişime geçin"
                 width={976}
                 height={873}
                 className="w-full items-start justify-start"
+                loading="lazy"
               />
             </motion.div>
-            <div className="flex w-full md:w-1/2">
+            <div className="flex w-full md:w-1/2 px-4 md:px-0">
               <div className="w-full flex items-center justify-center">
-                <div className="w-4/5 flex flex-col justify-between items-center gap-10">
-                  <motion.form
-                    className="w-full flex flex-col gap-16"
-                    onSubmit={handleFormSubmit}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    variants={{
-                      visible: {
-                        transition: {
-                          staggerChildren: 0.2,
+                <div className="w-full md:w-4/5 flex flex-col justify-between items-center gap-6 md:gap-10">
+                    <motion.form
+                      className="w-full flex flex-col gap-8 md:gap-16"
+                      onSubmit={handleFormSubmit}
+                      noValidate
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={{ once: true }}
+                      variants={{
+                        visible: {
+                          transition: {
+                            staggerChildren: 0.2,
+                          },
                         },
-                      },
-                    }}
-                  >
+                      }}
+                    >
                     <motion.div
-  variants={{
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  }}
-  transition={{ duration: 0.5 }}
-  className="group relative"
->
-  <input
-    id="input0"
-    type="text"
-    placeholder=" "
-    value={formData.fullName}
-    onChange={handleInputChange}
-    className="peer mt-1 block w-full px-4 py-3 bg-transparent border-b-2 border-[#525D7B] focus:border-[#0B05BA] outline-none transition-all placeholder-transparent"
-    required
-  />
-  <label
-    htmlFor="input0"
-    className="absolute left-4 -top-2 text-sm text-[#525D7B] transition-all duration-300 peer-placeholder-shown:text-base peer-placeholder-shown:top-4 peer-focus:-top-2 peer-focus:text-sm peer-focus:text-[#0B05BA]"
-  >
-    Ad Soyad
-  </label>
-</motion.div>
+                      variants={{
+                        hidden: { opacity: 0, y: 20 },
+                        visible: { opacity: 1, y: 0 },
+                      }}
+                      transition={{ duration: 0.5 }}
+                      className="group relative"
+                    >
+                      <input
+                        id="input0"
+                        type="text"
+                        placeholder=" "
+                        value={formData.fullName}
+                        onChange={handleInputChange}
+                        aria-label="Ad Soyad"
+                        aria-required="true"
+                        aria-invalid={!!formErrors.fullName}
+                        className={`peer mt-1 block w-full px-4 py-3 bg-transparent border-b-2 ${
+                          formErrors.fullName
+                            ? "border-red-500"
+                            : "border-[#525D7B] focus:border-[#0B05BA]"
+                        } outline-none transition-all placeholder-transparent`}
+                        required
+                      />
+                      <label
+                        htmlFor="input0"
+                        className="absolute left-4 -top-2 text-sm text-[#525D7B] transition-all duration-300 peer-placeholder-shown:text-base peer-placeholder-shown:top-4 peer-focus:-top-2 peer-focus:text-sm peer-focus:text-[#0B05BA]"
+                      >
+                        Ad Soyad
+                      </label>
+                      {formErrors.fullName && (
+                        <span className="absolute -bottom-5 left-4 text-xs text-red-500" role="alert">
+                          {formErrors.fullName}
+                        </span>
+                      )}
+                    </motion.div>
                     <motion.div
                       variants={{
                         hidden: { opacity: 0, y: 20 },
@@ -1233,7 +1204,14 @@ export default function Home() {
                         placeholder=" "
                         value={formData.companyName}
                         onChange={handleInputChange}
-                        className="peer mt-1 block w-full px-4 py-3 bg-transparent border-b-2 border-[#525D7B] focus:border-[#0B05BA] outline-none transition-all placeholder-transparent"
+                        aria-label="Kurum Adı"
+                        aria-required="true"
+                        aria-invalid={!!formErrors.companyName}
+                        className={`peer mt-1 block w-full px-4 py-3 bg-transparent border-b-2 ${
+                          formErrors.companyName
+                            ? "border-red-500"
+                            : "border-[#525D7B] focus:border-[#0B05BA]"
+                        } outline-none transition-all placeholder-transparent`}
                         required
                       />
                       <label
@@ -1242,8 +1220,13 @@ export default function Home() {
                       >
                         Kurum Adı
                       </label>
+                      {formErrors.companyName && (
+                        <span className="absolute -bottom-5 left-4 text-xs text-red-500" role="alert">
+                          {formErrors.companyName}
+                        </span>
+                      )}
                     </motion.div>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-4">
                       <motion.div
                         variants={{
                           hidden: { opacity: 0, y: 20 },
@@ -1258,7 +1241,14 @@ export default function Home() {
                           placeholder=" "
                           value={formData.email}
                           onChange={handleInputChange}
-                          className="peer mt-1 block w-full px-4 py-3 bg-transparent border-b-2 border-[#525D7B] focus:border-[#0B05BA] outline-none transition-all placeholder-transparent"
+                          aria-label="E-Mail"
+                          aria-required="true"
+                          aria-invalid={!!formErrors.email}
+                          className={`peer mt-1 block w-full px-4 py-3 bg-transparent border-b-2 ${
+                            formErrors.email
+                              ? "border-red-500"
+                              : "border-[#525D7B] focus:border-[#0B05BA]"
+                          } outline-none transition-all placeholder-transparent`}
                           required
                         />
                         <label
@@ -1267,6 +1257,11 @@ export default function Home() {
                         >
                           E-Mail
                         </label>
+                        {formErrors.email && (
+                          <span className="absolute -bottom-5 left-4 text-xs text-red-500" role="alert">
+                            {formErrors.email}
+                          </span>
+                        )}
                       </motion.div>
                       <motion.div
                         variants={{
@@ -1282,7 +1277,14 @@ export default function Home() {
                           placeholder=" "
                           value={formData.phone}
                           onChange={handleInputChange}
-                          className="peer mt-1 block w-full px-4 py-3 bg-transparent border-b-2 border-[#525D7B] focus:border-[#0B05BA] outline-none transition-all placeholder-transparent"
+                          aria-label="Telefon"
+                          aria-required="true"
+                          aria-invalid={!!formErrors.phone}
+                          className={`peer mt-1 block w-full px-4 py-3 bg-transparent border-b-2 ${
+                            formErrors.phone
+                              ? "border-red-500"
+                              : "border-[#525D7B] focus:border-[#0B05BA]"
+                          } outline-none transition-all placeholder-transparent`}
                           required
                         />
                         <label
@@ -1291,6 +1293,11 @@ export default function Home() {
                         >
                           Telefon
                         </label>
+                        {formErrors.phone && (
+                          <span className="absolute -bottom-5 left-4 text-xs text-red-500" role="alert">
+                            {formErrors.phone}
+                          </span>
+                        )}
                       </motion.div>
                     </div>
                     <motion.div
@@ -1307,7 +1314,14 @@ export default function Home() {
                         placeholder=" "
                         value={formData.message}
                         onChange={handleInputChange}
-                        className="peer mt-1 block w-full px-4 py-3 bg-transparent border-b-2 border-[#525D7B] focus:border-[#0B05BA] outline-none transition-all placeholder-transparent"
+                        aria-label="Mesajınız"
+                        aria-required="true"
+                        aria-invalid={!!formErrors.message}
+                        className={`peer mt-1 block w-full px-3 md:px-4 py-2.5 md:py-3 bg-transparent border-b-2 ${
+                          formErrors.message
+                            ? "border-red-500"
+                            : "border-[#525D7B] focus:border-[#0B05BA]"
+                        } outline-none transition-all placeholder-transparent text-sm md:text-base`}
                         required
                       />
                       <label
@@ -1316,7 +1330,34 @@ export default function Home() {
                       >
                         Mesajınız
                       </label>
+                      {formErrors.message && (
+                        <span className="absolute -bottom-5 left-4 text-xs text-red-500" role="alert">
+                          {formErrors.message}
+                        </span>
+                      )}
                     </motion.div>
+                    {submitStatus === "success" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="w-full md:w-1/2 px-4 py-3 bg-green-100 border border-green-400 text-green-700 rounded-md text-sm"
+                        role="alert"
+                        aria-live="polite"
+                      >
+                        Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.
+                      </motion.div>
+                    )}
+                    {submitStatus === "error" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="w-full md:w-1/2 px-4 py-3 bg-red-100 border border-red-400 text-red-700 rounded-md text-sm"
+                        role="alert"
+                        aria-live="assertive"
+                      >
+                        Bir hata oluştu. Lütfen tekrar deneyiniz.
+                      </motion.div>
+                    )}
                     <motion.button
                       variants={{
                         hidden: { opacity: 0, y: 20 },
@@ -1326,7 +1367,8 @@ export default function Home() {
                       whileTap={{ scale: 0.98 }}
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full md:w-1/2 px-4 py-4 bg-[#0B05BA] text-[#FFFEFD] font-semibold rounded-md shadow-md hover:bg-[#0B05BA]/90 focus:outline-none focus:ring-2 focus:ring-[#0B05BA] focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      aria-label="İletişim formunu gönder"
+                      className="w-full md:w-1/2 px-4 py-3 md:py-4 bg-[#0B05BA] text-[#FFFEFD] font-semibold rounded-md shadow-md hover:bg-[#0B05BA]/90 focus:outline-none focus:ring-2 focus:ring-[#0B05BA] focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base touch-manipulation"
                     >
                       {isSubmitting ? "Gönderiliyor..." : "İletişime Geç"}
                     </motion.button>

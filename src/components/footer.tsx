@@ -3,10 +3,10 @@ import Image from "next/image";
 
 const Footer = () => {
   return (
-    <footer className="w-full border-t border-[#8B8EAF] mt-10">
+    <footer className="w-full border-t border-[#8B8EAF] mt-6 md:mt-10" role="contentinfo">
       <div className="w-full flex flex-col md:gap-10">
         <motion.div 
-          className="w-full flex flex-col md:flex-row p-10 md:justify-between justify-center gap-7 md:gap-0"
+          className="w-full flex flex-col md:flex-row p-6 md:p-10 md:justify-between justify-center gap-6 md:gap-0"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -27,33 +27,45 @@ const Footer = () => {
             }}
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            <a href="https://apps.apple.com/tr/app/school-route/id6736696561?l=tr" target="_blank">
+            <a 
+              href="https://apps.apple.com/tr/app/school-route/id6736696561?l=tr" 
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="App Store'dan indir"
+              className="focus:outline-none focus:ring-2 focus:ring-[#0B05BA] focus:ring-offset-2 rounded"
+            >
               <Image
                 src="/images/app-store.svg"
-                alt="School Route Logo"
+                alt="App Store'dan indir"
                 width={140}
                 height={34}
                 className="hidden md:block"
               />
               <Image
                 src="/images/app-store.svg"
-                alt="School Route Logo"
+                alt="App Store'dan indir"
                 width={72}
                 height={19}
                 className="block md:hidden"
               />
             </a>
-            <a href="https://play.google.com/store/apps/details?id=com.schoolbusmobile" target="_blank">
+            <a 
+              href="https://play.google.com/store/apps/details?id=com.schoolbusmobile" 
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Google Play'den indir"
+              className="focus:outline-none focus:ring-2 focus:ring-[#0B05BA] focus:ring-offset-2 rounded"
+            >
               <Image
                 src="/images/google-play.svg"
-                alt="School Route Logo"
+                alt="Google Play'den indir"
                 width={140}
                 height={34}
                 className="hidden md:block"
               />
               <Image
                 src="/images/google-play.svg"
-                alt="School Route Logo"
+                alt="Google Play'den indir"
                 width={72}
                 height={19}
                 className="block md:hidden"
@@ -86,20 +98,13 @@ const Footer = () => {
                 height={26}
               />
             </div>
-            <div className="flex flex-col items-center gap-1">
-              <span className="font-roboto text-base text-[#002B4B] font-normal text-center">
+            <div className="flex flex-col items-center gap-1 px-4">
+              <span className="font-roboto text-sm sm:text-base text-[#002B4B] font-normal text-center">
                 School Route bir Yakın Boğaz Projesidir.
               </span>
-              <span className="font-roboto text-sm text-[#002B4B] font-normal text-center">
+              <span className="font-roboto text-xs sm:text-sm text-[#002B4B] font-normal text-center">
                 Tüm hakları saklıdır © 2024
               </span>
-              <a 
-                href="https://strajedi.com.tr/projects/schoolroute"
-                target="_blank"
-                className="font-roboto text-base text-[#002B4B] font-normal hover:text-[#0B05BA] transition-colors"
-              >
-                MADE BY STRAJEDİ
-              </a>
             </div>
           </motion.div>
 
@@ -112,25 +117,43 @@ const Footer = () => {
             }}
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            <a href="/privacy-policy" className="font-roboto text-[#525D7B] text-base font-semibold">
+            <a 
+              href="/privacy-policy" 
+              className="font-roboto text-[#525D7B] text-sm sm:text-base font-semibold hover:text-[#0B05BA] transition-colors focus:outline-none focus:ring-2 focus:ring-[#0B05BA] focus:ring-offset-2 rounded px-2 text-center"
+            >
               Çerez Politikası
             </a>
-            <a href="/privacy-policy" className="font-roboto text-[#525D7B] text-base font-semibold">
+            <a 
+              href="/privacy-policy" 
+              className="font-roboto text-[#525D7B] text-sm sm:text-base font-semibold hover:text-[#0B05BA] transition-colors focus:outline-none focus:ring-2 focus:ring-[#0B05BA] focus:ring-offset-2 rounded px-2 text-center"
+            >
               Kullanıcı ve Gizlilik Politikası
             </a>
             <div className="flex flex-row gap-2">
-              <a href="https://www.linkedin.com/company/school-route/" target="_blank">
+              <a 
+                href="https://www.linkedin.com/company/school-route/" 
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn sayfamızı ziyaret et"
+                className="focus:outline-none focus:ring-2 focus:ring-[#0B05BA] focus:ring-offset-2 rounded"
+              >
                 <Image
                   src="/images/linkedin.svg"
-                  alt="LinkedinLogo"
+                  alt="LinkedIn"
                   width={48}
                   height={48}
                 />
               </a>
-              <a href="https://www.instagram.com/schoolroute.app/" target="_blank">
+              <a 
+                href="https://www.instagram.com/schoolroute.app/" 
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram sayfamızı ziyaret et"
+                className="focus:outline-none focus:ring-2 focus:ring-[#0B05BA] focus:ring-offset-2 rounded"
+              >
                 <Image
                   src="/images/instagram.svg"
-                  alt="InstagramLogo"
+                  alt="Instagram"
                   width={48}
                   height={48}
                 />
