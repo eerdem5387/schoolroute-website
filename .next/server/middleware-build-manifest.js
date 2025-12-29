@@ -1,1 +1,35 @@
-self.__BUILD_MANIFEST={polyfillFiles:["static/chunks/polyfills-42372ed130431b0a.js"],devFiles:[],ampDevFiles:[],lowPriorityFiles:[],rootMainFiles:[],rootMainFilesTree:{},pages:{"/":["static/chunks/webpack-8cac0b4b405cede1.js","static/chunks/framework-052b50cd3d4947f2.js","static/chunks/main-f8fc263c64b7b045.js","static/chunks/516-1ac9ef1939690428.js","static/chunks/901-500cac5a96e0985f.js","static/chunks/pages/index-10ee2ea1e64f84a9.js"],"/_app":["static/chunks/webpack-8cac0b4b405cede1.js","static/chunks/framework-052b50cd3d4947f2.js","static/chunks/main-f8fc263c64b7b045.js","static/css/8746ee96d3e0ada0.css","static/chunks/pages/_app-9fa255167c030d49.js"],"/_error":["static/chunks/webpack-8cac0b4b405cede1.js","static/chunks/framework-052b50cd3d4947f2.js","static/chunks/main-f8fc263c64b7b045.js","static/chunks/pages/_error-fde50cb7f1ab27e0.js"],"/privacy-policy":["static/chunks/webpack-8cac0b4b405cede1.js","static/chunks/framework-052b50cd3d4947f2.js","static/chunks/main-f8fc263c64b7b045.js","static/chunks/516-1ac9ef1939690428.js","static/chunks/901-500cac5a96e0985f.js","static/chunks/pages/privacy-policy-aece898ef6aaf8b3.js"]},ampFirstPages:[]},self.__BUILD_MANIFEST.lowPriorityFiles=["/static/"+process.env.__NEXT_BUILD_ID+"/_buildManifest.js",,"/static/"+process.env.__NEXT_BUILD_ID+"/_ssgManifest.js"];
+self.__BUILD_MANIFEST = {
+  "polyfillFiles": [
+    "static/chunks/polyfills.js"
+  ],
+  "devFiles": [
+    "static/chunks/react-refresh.js"
+  ],
+  "ampDevFiles": [],
+  "lowPriorityFiles": [],
+  "rootMainFiles": [],
+  "rootMainFilesTree": {},
+  "pages": {
+    "/": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/index.js"
+    ],
+    "/_app": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/_app.js"
+    ],
+    "/_error": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/_error.js"
+    ]
+  },
+  "ampFirstPages": []
+};
+self.__BUILD_MANIFEST.lowPriorityFiles = [
+"/static/" + process.env.__NEXT_BUILD_ID + "/_buildManifest.js",
+,"/static/" + process.env.__NEXT_BUILD_ID + "/_ssgManifest.js",
+
+];
