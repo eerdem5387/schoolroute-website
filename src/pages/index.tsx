@@ -868,20 +868,6 @@ export default function Home() {
                     Beklenmedik durumlarda veya rota dışı hareketlerde sistem otomatik olarak uyarı mekanizmalarını devreye sokar.
                   </span>
                 </motion.li>
-                <motion.li
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.5 }}
-                  className="flex flex-col gap-1.5 md:gap-2"
-                >
-                  <span className="font-roboto text-sm sm:text-base md:text-lg text-[#002B4B] font-semibold break-words">
-                    • White-Label Özelleştirme:
-                  </span>
-                  <span className="font-roboto text-xs sm:text-sm md:text-base text-[#525D7B] leading-relaxed pl-3 md:pl-4 break-words">
-                    Yazılım, firmanın kendi logosu, renkleri ve kurumsal kimliği ile markalanır. Firmalar müşterilerine kendi özel yazılımlarını sunuyormuş gibi prestijli bir deneyim yaşatır.
-                  </span>
-                </motion.li>
               </ul>
             </motion.div>
           </div>
