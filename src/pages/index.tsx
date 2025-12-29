@@ -1023,24 +1023,6 @@ export default function Home() {
               </motion.div>
             </motion.div>
           </div>
-          
-          {/* Neden SchoolRoute? */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="w-full max-w-7xl mx-auto px-4 md:px-6 mt-6 md:mt-10"
-          >
-            <div className="w-full bg-[#FFFEFD] rounded-lg p-4 md:p-6 lg:p-8 shadow-lg">
-              <h3 className="text-[#002B4B] text-base sm:text-lg md:text-xl lg:text-2xl font-bold font-nunito mb-3 md:mb-5 break-words">
-                Neden SchoolRoute?
-              </h3>
-              <p className="font-roboto text-xs sm:text-sm md:text-base text-[#525D7B] leading-relaxed break-words">
-                SchoolRoute sadece bir takip yazılımı değil; veli güvenini artıran, okul ve servis şirketi arasındaki iletişimi dijitalleştiren ve operasyonel hataları minimize eden bir yönetim asistanıdır. Bugün iki büyük eğitim kurumunda aktif olarak kullanılan bu sistem, taşımacılıkta dijital dönüşümün en pratik halidir.
-              </p>
-            </div>
-          </motion.div>
         </div>
         <div
           id="referanslar"
