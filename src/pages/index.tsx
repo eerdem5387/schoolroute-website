@@ -785,17 +785,17 @@ export default function Home() {
           id="nasil-calisir"
           className="w-full min-h-[calc(100vh-56px)] md:h-screen flex flex-col justify-center items-center bg-[#F0EDFF] py-8 md:py-12 lg:py-16 md:gap-5 gap-6 md:gap-10 scroll-mt-[56px] md:scroll-mt-28"
         >
-          <div className="w-11/12 max-w-7xl mx-auto flex flex-col gap-4 md:gap-5 mt-6 md:mt-10 px-2">
+          <div className="w-full max-w-7xl mx-auto flex flex-col gap-4 md:gap-5 mt-6 md:mt-10 px-4 md:px-6">
             <div className="w-full text-left">
-              <p className="text-[#002B4B] text-xl sm:text-2xl md:text-4xl lg:text-5xl md:font-semibold font-bold font-nunito">
+              <p className="text-[#002B4B] text-xl sm:text-2xl md:text-4xl lg:text-5xl md:font-semibold font-bold font-nunito break-words">
                 NASIL ÇALIŞIR ?
               </p>
             </div>
-            <div className="md:w-4/5 w-full text-left">
-              <p className="font-roboto text-sm sm:text-base md:text-lg text-[#002B4B] leading-relaxed mb-4">
+            <div className="w-full md:w-4/5 text-left">
+              <p className="font-roboto text-sm sm:text-base md:text-lg text-[#002B4B] leading-relaxed mb-4 break-words">
                 School Route, okul servis yönetimini dijitalleştiren ve tüm süreçleri tek bir platformda birleştiren kapsamlı bir çözümdür. Sistem, gelişmiş GPS teknolojisi, gerçek zamanlı veri izleme ve akıllı analiz araçları kullanarak okul yönetimleri, veliler ve servis şirketleri için özelleştirilmiş arayüzler sunar.
               </p>
-              <p className="font-roboto text-sm sm:text-base md:text-lg text-[#002B4B] leading-relaxed mb-8">
+              <p className="font-roboto text-sm sm:text-base md:text-lg text-[#002B4B] leading-relaxed mb-6 md:mb-8 break-words">
                 Platform, kullanıcı dostu tasarımı ve sezgisel navigasyonu sayesinde her yaş grubundan kullanıcının kolayca adapte olabileceği bir deneyim sağlar. Mobil uygulama ve web arayüzü üzerinden erişilebilen sistem, 7/24 kesintisiz hizmet vererek okul servis süreçlerinin tam kontrolünü sağlar.
               </p>
             </div>
@@ -808,22 +808,22 @@ export default function Home() {
               transition={{ duration: 0.5 }}
               className="w-full md:w-4/5 text-left"
             >
-              <h3 className="text-[#002B4B] text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold font-nunito mb-4 md:mb-6">
+              <h3 className="text-[#002B4B] text-base sm:text-lg md:text-xl lg:text-2xl font-bold font-nunito mb-3 md:mb-5 break-words">
                 Öne Çıkan Temel Özellikler
               </h3>
-              <ul className="space-y-4 md:space-y-5">
+              <ul className="space-y-3 md:space-y-4">
                 <motion.li
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.1 }}
-                  className="flex flex-col gap-2"
+                  className="flex flex-col gap-1.5 md:gap-2"
                 >
-                  <span className="font-roboto text-sm sm:text-base md:text-lg text-[#002B4B] font-semibold">
+                  <span className="font-roboto text-sm sm:text-base md:text-lg text-[#002B4B] font-semibold break-words">
                     • Donanımsız Takip Teknolojisi:
                   </span>
-                  <span className="font-roboto text-sm sm:text-base md:text-lg text-[#525D7B] leading-relaxed pl-4">
-                    Araca özel herhangi bir GPS cihazı veya ek donanım takılmasına gerek duymaz. Tamamen sürücü ve veli/yolcu mobil uygulamaları üzerinden entegre çalışır.
+                  <span className="font-roboto text-xs sm:text-sm md:text-base text-[#525D7B] leading-relaxed pl-3 md:pl-4 break-words">
+                    Araca özel GPS cihazı veya ek donanım gerektirmez. Sürücü ve veli/yolcu mobil uygulamaları üzerinden entegre çalışır.
                   </span>
                 </motion.li>
                 <motion.li
@@ -831,13 +831,13 @@ export default function Home() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.2 }}
-                  className="flex flex-col gap-2"
+                  className="flex flex-col gap-1.5 md:gap-2"
                 >
-                  <span className="font-roboto text-sm sm:text-base md:text-lg text-[#002B4B] font-semibold">
+                  <span className="font-roboto text-sm sm:text-base md:text-lg text-[#002B4B] font-semibold break-words">
                     • Anlık Harita ve Rota Takibi:
                   </span>
-                  <span className="font-roboto text-sm sm:text-base md:text-lg text-[#525D7B] leading-relaxed pl-4">
-                    Araçların belirlenen rotadan sapıp sapmadığı, hız sınırlarına uyup uymadığı merkezden ve ilgili taraflardan anlık olarak izlenebilir.
+                  <span className="font-roboto text-xs sm:text-sm md:text-base text-[#525D7B] leading-relaxed pl-3 md:pl-4 break-words">
+                    Araçların rotadan sapma durumu ve hız limitlerine uyumu merkezden ve ilgili taraflardan anlık olarak izlenebilir.
                   </span>
                 </motion.li>
                 <motion.li
@@ -845,13 +845,13 @@ export default function Home() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.3 }}
-                  className="flex flex-col gap-2"
+                  className="flex flex-col gap-1.5 md:gap-2"
                 >
-                  <span className="font-roboto text-sm sm:text-base md:text-lg text-[#002B4B] font-semibold">
+                  <span className="font-roboto text-sm sm:text-base md:text-lg text-[#002B4B] font-semibold break-words">
                     • Tam Entegre Bilgilendirme:
                   </span>
-                  <span className="font-roboto text-sm sm:text-base md:text-lg text-[#525D7B] leading-relaxed pl-4">
-                    Öğrencinin/yolcunun araca biniş anı, aracın mevcut konumu ve varış noktasına teslimatı; okul yönetimi, servis şirketi ve veli üçgeninde eş zamanlı paylaşılır.
+                  <span className="font-roboto text-xs sm:text-sm md:text-base text-[#525D7B] leading-relaxed pl-3 md:pl-4 break-words">
+                    Öğrencinin araca biniş anı, aracın konumu ve varış noktasına teslimatı; okul yönetimi, servis şirketi ve veli arasında eş zamanlı paylaşılır.
                   </span>
                 </motion.li>
                 <motion.li
@@ -859,12 +859,12 @@ export default function Home() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.4 }}
-                  className="flex flex-col gap-2"
+                  className="flex flex-col gap-1.5 md:gap-2"
                 >
-                  <span className="font-roboto text-sm sm:text-base md:text-lg text-[#002B4B] font-semibold">
+                  <span className="font-roboto text-sm sm:text-base md:text-lg text-[#002B4B] font-semibold break-words">
                     • Acil Durum Yönetimi:
                   </span>
-                  <span className="font-roboto text-sm sm:text-base md:text-lg text-[#525D7B] leading-relaxed pl-4">
+                  <span className="font-roboto text-xs sm:text-sm md:text-base text-[#525D7B] leading-relaxed pl-3 md:pl-4 break-words">
                     Beklenmedik durumlarda veya rota dışı hareketlerde sistem otomatik olarak uyarı mekanizmalarını devreye sokar.
                   </span>
                 </motion.li>
@@ -873,13 +873,13 @@ export default function Home() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.5 }}
-                  className="flex flex-col gap-2"
+                  className="flex flex-col gap-1.5 md:gap-2"
                 >
-                  <span className="font-roboto text-sm sm:text-base md:text-lg text-[#002B4B] font-semibold">
+                  <span className="font-roboto text-sm sm:text-base md:text-lg text-[#002B4B] font-semibold break-words">
                     • White-Label Özelleştirme:
                   </span>
-                  <span className="font-roboto text-sm sm:text-base md:text-lg text-[#525D7B] leading-relaxed pl-4">
-                    Yazılım, hizmet alan firmanın kendi logosu, renkleri ve kurumsal kimliği ile markalanır. Bu sayede firmalar, müşterilerine kendi özel yazılımlarını sunuyormuş gibi prestijli bir deneyim yaşatır.
+                  <span className="font-roboto text-xs sm:text-sm md:text-base text-[#525D7B] leading-relaxed pl-3 md:pl-4 break-words">
+                    Yazılım, firmanın kendi logosu, renkleri ve kurumsal kimliği ile markalanır. Firmalar müşterilerine kendi özel yazılımlarını sunuyormuş gibi prestijli bir deneyim yaşatır.
                   </span>
                 </motion.li>
               </ul>
@@ -1044,13 +1044,13 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="w-full max-w-7xl mx-auto px-4 md:px-0 mt-8 md:mt-12"
+            className="w-full max-w-7xl mx-auto px-4 md:px-6 mt-6 md:mt-10"
           >
-            <div className="w-full bg-[#FFFEFD] rounded-lg p-6 md:p-8 shadow-lg">
-              <h3 className="text-[#002B4B] text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold font-nunito mb-4 md:mb-6">
+            <div className="w-full bg-[#FFFEFD] rounded-lg p-4 md:p-6 lg:p-8 shadow-lg">
+              <h3 className="text-[#002B4B] text-base sm:text-lg md:text-xl lg:text-2xl font-bold font-nunito mb-3 md:mb-5 break-words">
                 Neden SchoolRoute?
               </h3>
-              <p className="font-roboto text-sm sm:text-base md:text-lg text-[#525D7B] leading-relaxed">
+              <p className="font-roboto text-xs sm:text-sm md:text-base text-[#525D7B] leading-relaxed break-words">
                 SchoolRoute sadece bir takip yazılımı değil; veli güvenini artıran, okul ve servis şirketi arasındaki iletişimi dijitalleştiren ve operasyonel hataları minimize eden bir yönetim asistanıdır. Bugün iki büyük eğitim kurumunda aktif olarak kullanılan bu sistem, taşımacılıkta dijital dönüşümün en pratik halidir.
               </p>
             </div>
